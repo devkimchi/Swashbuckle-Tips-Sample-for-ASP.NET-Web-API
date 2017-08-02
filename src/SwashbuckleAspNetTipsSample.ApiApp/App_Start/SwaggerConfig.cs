@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Web.Http;
 
 using Swashbuckle.Application;
+using Swashbuckle.Examples;
 
 using SwashbuckleAspNetTipsSample.ApiApp.OperationFilters;
 
@@ -26,7 +27,6 @@ namespace SwashbuckleAspNetTipsSample.ApiApp
         /// <param name="config"><see cref="HttpConfiguration"/> instance.</param>
         public static void Register(HttpConfiguration config)
         {
-
             config
                 .EnableSwagger(c =>
                     {
@@ -175,6 +175,7 @@ namespace SwashbuckleAspNetTipsSample.ApiApp
 
                         c.OperationFilter<Consumes>();
                         c.OperationFilter<Produces>();
+                        c.OperationFilter<ExamplesOperationFilter>();
 
                         // Post-modify the entire Swagger document by wiring up one or more Document filters.
                         // This gives full control to modify the final SwaggerDocument. You should have a good understanding of
