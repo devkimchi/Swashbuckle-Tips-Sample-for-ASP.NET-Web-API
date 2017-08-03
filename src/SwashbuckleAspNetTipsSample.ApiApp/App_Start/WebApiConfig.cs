@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using System.Web.Http;
 
 using Autofac;
 using Autofac.Integration.WebApi;
@@ -33,22 +35,38 @@ namespace SwashbuckleAspNetTipsSample.ApiApp
                                    NullValueHandling = NullValueHandling.Ignore,
                                    MissingMemberHandling = MissingMemberHandling.Ignore
                                };
+
+            var mediaType = new MediaTypeHeaderValue("application/json");
+			
+            var formatter = new JsonMediaTypeFormatter() { SerializerSettings = settings };
+            formatter.SupportedMediaTypes.Clear();
+            formatter.SupportedMediaTypes.Add(mediaType);
+
             var config = new HttpConfiguration
                              {
-                                 DependencyResolver = new AutofacWebApiDependencyResolver(container)
+                                 DependencyResolver = new AutofacWebApiDependencyResolver(container),
                              };
-            config.Formatters.JsonFormatter.SerializerSettings = settings;
+            config.Formatters.Clear();
+            config.Formatters.Add(formatter);
 
             // Web API configuration and services
 
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+                name: "RootRedirectToSwagger",
+                routeTemplate: string.Empty,
+                defaults: null,
+                constraints: null,
+                handler: new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
             config.Routes.MapHttpRoute(
-                name: "Swagger",
+                name: "SwaggerRedirect",
+                routeTemplate: "swagger",
+                defaults: null,
+                constraints: null,
+                handler: new RedirectHandler(SwaggerDocsConfig.DefaultRootUrlResolver, "swagger/ui/index"));
+            config.Routes.MapHttpRoute(
+                name: "SwaggerUiRedirect",
                 routeTemplate: "swagger/ui",
                 defaults: null,
                 constraints: null,
