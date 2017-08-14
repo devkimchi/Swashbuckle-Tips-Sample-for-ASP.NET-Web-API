@@ -8,9 +8,11 @@ This provides sample codes with useful tips when using [Swashbuckle](https://git
 * 한국어
   * [Swashbuckle 이용시 알아두면 좋을 소소한 팁 #1 &ndash; consumes & produces](http://blog.aliencube.org/ko/2017/07/31/swashbuckle-pro-tips-for-aspnet-web-api-part-1/)
   * [Swashbuckle 이용시 알아두면 좋을 소소한 팁 #2 &ndash; examples](http://blog.aliencube.org/ko/2017/08/03/swashbuckle-pro-tips-for-aspnet-web-api-part-2/)
+  * Swashbuckle 이용시 알아두면 좋을 소소한 팁 #3 &ndash; xml
 * English
   * [Swachbuckle Pro Tips for ASP.NET Web API #1 &ndash; consumes & produces](https://blog.kloud.com.au/2017/08/04/swashbuckle-pro-tips-for-aspnet-web-api-part-1/)
-  * Swachbuckle Pro Tips for ASP.NET Web API #2 &ndash; examples
+  * [Swachbuckle Pro Tips for ASP.NET Web API #2 &ndash; examples](https://blog.kloud.com.au/2017/08/13/swashbuckle-pro-tips-for-aspnet-web-api-part-2/)
+  * Swachbuckle Pro Tips for ASP.NET Web API #3 &ndash; xml
 
 
 ## Contributions ##
