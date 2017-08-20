@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Formatting;
+﻿using System.Collections.Generic;
+using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
 
@@ -29,6 +30,7 @@ namespace SwashbuckleAspNetTipsSample.ApiApp
         {
             var settings = new JsonSerializerSettings()
                                {
+                                   // Add JSON serialiser settings to support camelCasing.
                                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
                                    Formatting = Formatting.Indented,
                                    Converters = { new StringEnumConverter() },
@@ -36,18 +38,25 @@ namespace SwashbuckleAspNetTipsSample.ApiApp
                                    MissingMemberHandling = MissingMemberHandling.Ignore
                                };
 
-            var mediaType = new MediaTypeHeaderValue("application/json");
-			
-            var formatter = new JsonMediaTypeFormatter() { SerializerSettings = settings };
-            formatter.SupportedMediaTypes.Clear();
-            formatter.SupportedMediaTypes.Add(mediaType);
-
             var config = new HttpConfiguration
                              {
                                  DependencyResolver = new AutofacWebApiDependencyResolver(container),
                              };
+
+            var jsonFormatter = config.Formatters.JsonFormatter;
+            jsonFormatter.SerializerSettings = settings;
+            jsonFormatter.SupportedMediaTypes.Clear();
+            jsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
+
+            var xmlFormatter = config.Formatters.XmlFormatter;
+
+            // Starts using XmlSerialiser rather than DataContractSerializer.
+            xmlFormatter.UseXmlSerializer = true;
+            xmlFormatter.SupportedMediaTypes.Clear();
+            xmlFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/xml"));
+
             config.Formatters.Clear();
-            config.Formatters.Add(formatter);
+            config.Formatters.AddRange(new List<MediaTypeFormatter>() { jsonFormatter, xmlFormatter });
 
             // Web API configuration and services
 

@@ -6,7 +6,9 @@ using System.Web.Http;
 using Swashbuckle.Application;
 using Swashbuckle.Examples;
 
+using SwashbuckleAspNetTipsSample.ApiApp.Models;
 using SwashbuckleAspNetTipsSample.ApiApp.OperationFilters;
+using SwashbuckleAspNetTipsSample.ApiApp.SchemaFilters;
 
 using WebActivatorEx;
 
@@ -135,6 +137,8 @@ namespace SwashbuckleAspNetTipsSample.ApiApp
                         // specific type, you can wire up one or more Schema filters.
                         //
                         //c.SchemaFilter<ApplySchemaVendorExtensions>();
+                        c.SchemaFilter(() => new Requests(typeof(ValueRequestModel)));
+                        c.SchemaFilter(() => new Responses(typeof(ValueResponseModel)));
 
                         // In a Swagger 2.0 document, complex types are typically declared globally and referenced by unique
                         // Schema Id. By default, Swashbuckle does NOT use the full type name in Schema Ids. In most cases, this
